@@ -1,1 +1,7 @@
-
+{
+    "semi": true,
+    "trailingComma": "none",
+    "singleQuote": false,
+    "printWidth": 80,
+    "filepath": "src/**/*.ts"
+  }

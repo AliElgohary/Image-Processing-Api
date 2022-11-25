@@ -43,27 +43,42 @@ var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 var resizeJPEG_1 = __importDefault(require("./resizeJPEG"));
 var resizePNG_1 = __importDefault(require("./resizePNG"));
+var checkParams = function (param, type) {
+    if (type === void 0) { type = "string"; }
+    return (param != undefined &&
+        param != null &&
+        param != "" &&
+        (type == "number" ? !isNaN(parseInt(param)) : true));
+};
+var validateHeightWidth = function (value) {
+    return value > 0;
+};
+var validateFormat = function (format) {
+    return (format.toLowerCase() == "png" ||
+        format.toLowerCase() == "jpg" ||
+        format.toLowerCase() == "jpeg");
+};
 var resize = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var FileName, Width, Height, fileFormat, fileExtension, srcFilePath, dstFileName, dstDir, dstFilePath, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (req.query.filename === undefined ||
-                    req.query.width === undefined ||
-                    req.query.height === undefined) {
-                    res.send("Error: Please check the URL parameters and enter valid parameters");
-                    return [2 /*return*/];
-                }
+                if (checkParams(req.query.filename) &&
+                    checkParams(req.query.width, "number") &&
+                    checkParams(req.query.height, "number") &&
+                    checkParams(req.query.format, "number"))
+                    return [2 /*return*/, res.send("Error: Please check the URL parameters and enter valid parameters")];
+                else if (validateHeightWidth(parseInt(req.query.height)))
+                    return [2 /*return*/, res.send("Error: Please check the URL parameters and enter valid parameters")];
+                else if (validateHeightWidth(parseInt(req.query.width)))
+                    return [2 /*return*/, res.send("Error: Please check the URL parameters and enter valid parameters")];
+                else if (validateFormat(req.query.format))
+                    return [2 /*return*/, res.send("Error: the Format is unsupported")];
                 FileName = req.query.filename;
                 Width = parseInt(req.query.width);
                 Height = parseInt(req.query.height);
                 fileFormat = req.query.format;
                 fileExtension = "." + fileFormat;
-                // If no file format is specified consider jpeg as default
-                if (fileFormat === undefined) {
-                    fileFormat = "jpeg";
-                    fileExtension = ".jpg";
-                }
                 srcFilePath = path_1.default.join(__dirname + "../../../images/full/" + FileName + fileExtension);
                 if (isNaN(Width) || isNaN(Height)) {
                     res.send("Error: Please enter valid number for width and height");
@@ -73,9 +88,6 @@ var resize = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 dstDir = path_1.default.join(__dirname + "../../../images/thumb/");
                 dstFilePath = dstDir + dstFileName;
                 console.log(dstFilePath);
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 6, , 7]);
                 try {
                     fs_1.default.accessSync(srcFilePath, fs_1.default.constants.F_OK);
                     console.log("Requested file presents in full dir");
@@ -108,6 +120,9 @@ var resize = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                     }
                 }
                 console.log("Calling Sharp for resizing, format : " + fileFormat);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 6, , 7]);
                 if (!(fileFormat === "jpeg")) return [3 /*break*/, 3];
                 return [4 /*yield*/, resizeJPEG_1.default(srcFilePath, Width, Height, dstFilePath)];
             case 2:
@@ -119,14 +134,14 @@ var resize = function (req, res) { return __awaiter(void 0, void 0, void 0, func
             case 4:
                 _a.sent();
                 _a.label = 5;
-            case 5:
-                res.sendFile(dstFilePath);
-                return [2 /*return*/];
+            case 5: return [3 /*break*/, 7];
             case 6:
                 err_1 = _a.sent();
-                console.log(err_1);
+                res.send("Error: error calling method resize" + fileFormat.toUpperCase());
                 return [3 /*break*/, 7];
-            case 7: return [2 /*return*/];
+            case 7:
+                res.sendFile(dstFilePath);
+                return [2 /*return*/];
         }
     });
 }); };

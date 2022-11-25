@@ -1,7 +1,7 @@
 import path from 'path';
 import resizeJPEG from '../../utilities/resizeJPEG';
 
-describe('Test image processing', () => {
+describe('Test image processing', ():void => {
     it('should get the resized image as per provided width and height', async () => {
         const srcFilePath = path.join(
             __dirname + '../../../../images/full/fjord.jpg'
@@ -13,4 +13,6 @@ describe('Test image processing', () => {
 
         expect(dstFilePath).toBeTruthy();
     });
+    
 });
+
