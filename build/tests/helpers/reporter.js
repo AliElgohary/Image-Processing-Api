@@ -22,7 +22,7 @@ var CustomProcessor = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     CustomProcessor.prototype.displayJasmineStarted = function (info, log) {
-        return "".concat(log);
+        return "" + log;
     };
     return CustomProcessor;
 }(jasmine_spec_reporter_1.DisplayProcessor));

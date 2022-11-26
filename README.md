@@ -23,4 +23,4 @@ process JPEG images :
 the changes :
 1- jpg and jpeg files are now working
 2- showing errors when calling resizeJPG
-3- fixed prettier
+3- fixed prettier and lint

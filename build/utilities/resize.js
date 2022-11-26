@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+        while (_) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -69,7 +69,7 @@ var resize = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                     checkParams(req.query.format, "number"))
                     return [2 /*return*/, res.send("Error: Please check the URL parameters and enter valid parameters")];
                 else if (!validateHeightWidth(parseInt(req.query.height)))
-                    return [2 /*return*/, res.send("Error: invalid height ".concat(req.query.height))];
+                    return [2 /*return*/, res.send("Error: invalid height " + req.query.height)];
                 else if (!validateHeightWidth(parseInt(req.query.width)))
                     return [2 /*return*/, res.send("Error: invalid width")];
                 else if (!validateFormat(req.query.format))
@@ -119,18 +119,18 @@ var resize = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                         return [2 /*return*/];
                     }
                 }
-                console.log("Calling Sharp for resizing, format : ".concat(fileFormat));
+                console.log("Calling Sharp for resizing, format : " + fileFormat);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 6, , 7]);
                 if (!(fileFormat === "jpeg" || fileFormat === "jpg")) return [3 /*break*/, 3];
-                return [4 /*yield*/, (0, resizeJPEG_1.default)(srcFilePath, Width, Height, dstFilePath)];
+                return [4 /*yield*/, resizeJPEG_1.default(srcFilePath, Width, Height, dstFilePath)];
             case 2:
                 _a.sent();
                 return [3 /*break*/, 5];
             case 3:
                 if (!(fileFormat === "png")) return [3 /*break*/, 5];
-                return [4 /*yield*/, (0, resizePNG_1.default)(srcFilePath, Width, Height, dstFilePath)];
+                return [4 /*yield*/, resizePNG_1.default(srcFilePath, Width, Height, dstFilePath)];
             case 4:
                 _a.sent();
                 _a.label = 5;
