@@ -21,7 +21,6 @@ process JPEG images :
 /api/images?filename=<filename>&width=<width>&height=<height>&format=png
 
 the changes :
-1- Package.json is modified.
-2- added validation to query inputs(width , hieght, format) with messages.
-3- checked functions types and return values.
-4- Prettier and Lint now run on all TS files only.
+1- jpg and jpeg files are now working
+2- showing errors when calling resizeJPG
+3- fixed prettier

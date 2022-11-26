@@ -34,17 +34,11 @@ const resize = async (req: express.Request, res: express.Response) => {
       `Error: Please check the URL parameters and enter valid parameters`
     );
   else if (!validateHeightWidth(parseInt(req.query.height as string)))
-    return res.send(
-      `Error: invalid height ${req.query.height}`
-    );
+    return res.send(`Error: invalid height ${req.query.height}`);
   else if (!validateHeightWidth(parseInt(req.query.width as string)))
-    return res.send(
-      `Error: invalid width`
-    );
+    return res.send(`Error: invalid width`);
   else if (!validateFormat(req.query.format as string))
-    return res.send(
-      `Error: the Format is unsupported`
-    );
+    return res.send(`Error: the Format is unsupported`);
 
   const FileName = req.query.filename as string;
   const Width = parseInt(req.query.width as string);
@@ -52,8 +46,6 @@ const resize = async (req: express.Request, res: express.Response) => {
 
   let fileFormat = req.query.format as string;
   let fileExtension = "." + fileFormat;
-
- 
 
   const srcFilePath: string = path.join(
     __dirname + "../../../images/full/" + FileName + fileExtension
@@ -74,7 +66,7 @@ const resize = async (req: express.Request, res: express.Response) => {
     fs.accessSync(srcFilePath, fs.constants.F_OK);
     console.log(`Requested file presents in full dir`);
   } catch (err) {
-    res.send(`Error: Requested file is not present in full dir`);
+    res.send(`Error: Requested file is not found`);
     return;
   }
 
@@ -104,13 +96,18 @@ const resize = async (req: express.Request, res: express.Response) => {
   console.log(`Calling Sharp for resizing, format : ${fileFormat}`);
 
   try {
-    if (fileFormat === "jpeg") {
+    if (fileFormat === "jpeg" || fileFormat === "jpg") {
       await resizeJPEG(srcFilePath, Width, Height, dstFilePath);
     } else if (fileFormat === "png") {
       await resizePNG(srcFilePath, Width, Height, dstFilePath);
     }
   } catch (err) {
-    res.send(`Error: error calling method resize` + fileFormat.toUpperCase());
+    res.send(
+      `Error: error calling method resize` +
+        fileFormat.toUpperCase() +
+        ", " +
+        err
+    );
   }
 
   res.sendFile(dstFilePath);
