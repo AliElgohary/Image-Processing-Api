@@ -4,12 +4,12 @@ import path from "path";
 import resizeJPEG from "./resizeJPEG";
 import resizePNG from "./resizePNG";
 
-const checkParams = function (param: string, type: string = "string") {
+const checkIsValidParam = function (param: string, type: string = "string") {
   return (
     param != undefined &&
     param != null &&
     param != "" &&
-    (type == "number" ? !isNaN(parseInt(param)) : true)
+    (type == "number" ? /^\d+$/.test(param) : true)
   );
 };
 const validateHeightWidth = (value: number): boolean => {
@@ -25,10 +25,10 @@ const validateFormat = (format: string): boolean => {
 
 const resize = async (req: express.Request, res: express.Response) => {
   if (
-    checkParams(req.query.filename as string) &&
-    checkParams(req.query.width as string, "number") &&
-    checkParams(req.query.height as string, "number") &&
-    checkParams(req.query.format as string, "number")
+    !checkIsValidParam(req.query.filename as string) ||
+    !checkIsValidParam(req.query.width as string, "number") ||
+    !checkIsValidParam(req.query.height as string, "number") ||
+    !checkIsValidParam(req.query.format as string)
   )
     return res.send(
       `Error: Please check the URL parameters and enter valid parameters`

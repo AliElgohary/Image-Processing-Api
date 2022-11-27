@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var index_1 = __importDefault(require("./routes/index"));
 var app = express_1.default();
-var port = 3000;
+var port = 3001;
 app.use("/api", index_1.default);
 app.listen(port, function () {
     console.log("Server started successfully at " + port);
